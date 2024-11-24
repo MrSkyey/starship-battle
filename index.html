@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Embark on an intergalactic adventure with Starship Battle! Inspired by the classic Battleship game, this space-themed strategy game lets you hunt and destroy enemy spaceships hidden on a 5x5 grid.">
+    <meta name="keywords"
+        content="Space Battle game, Spaceship strategy game, Galactic battleship game, Space-themed grid game, Laser shooting game, Intergalactic war game, Sci-fi strategy game, Space adventure game, Ship targeting game, Space combat simulation, Hit and miss game, Space exploration battle, Space warfare game, Space grid attack">
+    <meta name="author" content="Clarke Jones">
+    <title>Starship Battle</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+    <h1> Starship Battle </h1>
+    <div id="game-board"></div>
+    <p id="message"></p>
+    <audio id="hit-sound" src="/static/hit.mp3"></audio>
+    <audio id="miss-sound" src="/static/miss.mp3"></audio>
+
+    <script>
+        const boardSize = 5;
+        const spaceshipPositions = [
+            [1, 1],
+            [2, 3],
+            [4, 0]
+        ]; // Predefined positions
+        const board = document.getElementById('game-board');
+        const message = document.getElementById('message');
+        const hitSound = document.getElementById('hit-sound');
+        const missSound = document.getElementById('miss-sound');
+
+        // Create board grid
+        for (let row = 0; row < boardSize; row++) {
+            for (let col = 0; col < boardSize; col++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.dataset.row = row;
+                cell.dataset.col = col;
+                cell.addEventListener('click', () => fire(row, col, cell));
+                board.appendChild(cell);
+            }
+        }
+
+        function fire(row, col, cell) {
+            const hit = spaceshipPositions.some(pos => pos[0] === row && pos[1] === col);
+
+            if (cell.classList.contains('hit') || cell.classList.contains('miss')) {
+                message.textContent = "You already attacked this spot!";
+                return;
+            }
+
+            if (hit) {
+                cell.classList.add('hit');
+                hitSound.play();
+                message.textContent = "You hit a spaceship!";
+            } else {
+                cell.classList.add('miss');
+                missSound.play();
+                message.textContent = "Miss! Try again.";
+            }
+        }
+    </script>
+</body>
+
+</html>
