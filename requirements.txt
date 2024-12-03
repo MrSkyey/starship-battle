@@ -1,2 +1,4 @@
+# Update to deploy on heroku
+pip install Flask
 Flask==2.3.2
 gunicorn==21.2.0
